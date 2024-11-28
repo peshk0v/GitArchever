@@ -1,7 +1,7 @@
 import os
 from time import sleep
 from art import tprint
-import tabulate
+from tabulate import tabulate
 
 def system(command):
     os.system(command)
@@ -72,4 +72,4 @@ def textAnimation(text, sleeep):
         asleep(sleeep)
 
 def atabulate(list):
-    return tabulate.tabulate(list)
+    return tabulate(list)
