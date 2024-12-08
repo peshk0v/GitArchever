@@ -3,6 +3,7 @@ import myhelp.interface as mi
 from os import listdir
 from simple_term_menu import TerminalMenu
 from tkinter import filedialog
+import sys
 
 def choice(opt):
     options = opt
@@ -63,13 +64,24 @@ if len(repoFold) > 0:
         mi.system(f"rm -rf {config['Git']['tempFolder']}/{repoFold[i]}")
     mf.jsDump("repo.json", [])
 
-mi.update()
-mi.aprint("GitArch")
-link = input("\nВведите ссылку: ")
-newrepo = link.split("/")[-1]
-print(newrepo)
+def nonLinkStart():
+    mi.update()
+    mi.aprint("GitArch")
+    link = input("\nВведите ссылку: ")
+    newrepo = link.split("/")[-1]
+    mi.system(f"git clone {link} {config['Git']['tempFolder']}/{newrepo}")
+    mainMenu(newrepo)
 
-mi.system(f"git clone {link} {config['Git']['tempFolder']}/{newrepo}")
+def linkStart(link):
+    mi.update()
+    mi.aprint("GitArch")
+    newrepo = link.split("/")[-1]
+    print("Загрузка репозитория...\n")
+    mi.system(f"git clone {link} {config['Git']['tempFolder']}/{newrepo}")
+    mainMenu(newrepo)
 
-
-mainMenu(newrepo)
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        linkStart(sys.argv[1])
+    else:
+        nonLinkStart()
